@@ -1,0 +1,9 @@
+{
+  "siteName": "My Blog",
+  "tagline": "welcome to",
+  "headline": "THE BLOG",
+  "subtext": "A cozy little corner of the internet.",
+  "defaultHeadlineFont": "poppins",
+  "defaultAccentFont": "dancing-script",
+  "basePath": ""
+}

@@ -1,0 +1,16 @@
+<div class="wrap">
+  <article class="post-single">
+    <% if (post.thumbnail) { %>
+      <div class="post-single-hero" style="background-image:url('<%= url('/images/' + post.thumbnail) %>')"></div>
+    <% } %>
+    <div class="post-single-meta">
+      <% if (category) { %><span class="post-card-tag"><%= category.name %></span><% } %>
+      <h1 class="post-single-title<%= post.titleFont ? ' font-' + post.titleFont : '' %>"><%= post.title %></h1>
+      <div class="post-single-date"><%= publishedDateLabel %></div>
+    </div>
+    <div class="post-single-content"><%- post.bodyHtml %></div>
+    <% if (category) { %>
+      <a class="back-link" href="<%= url('/category/' + category.slug + '/') %>">&larr; Back to <%= category.name %></a>
+    <% } %>
+  </article>
+</div>

@@ -1,0 +1,23 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title><%= pageTitle %> | <%= site.siteName %></title>
+  <% if (typeof pageDescription !== 'undefined' && pageDescription) { %>
+  <meta name="description" content="<%= pageDescription %>">
+  <% } %>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?<%= fonts.map(f => 'family=' + f.googleParam).join('&') %>&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="<%= url('/assets/site.css') %>">
+</head>
+<body>
+  <%- include('partials/nav', { site, categories, url }) %>
+  <main>
+    <%- body %>
+  </main>
+  <%- include('partials/footer', { site, categories, url }) %>
+  <script src="<%= url('/assets/nav.js') %>"></script>
+</body>
+</html>

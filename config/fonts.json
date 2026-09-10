@@ -1,0 +1,58 @@
+[
+  {
+    "id": "dancing-script",
+    "label": "Dancing Script",
+    "family": "'Dancing Script', cursive",
+    "category": "script",
+    "googleParam": "Dancing+Script:wght@400;700"
+  },
+  {
+    "id": "alex-brush",
+    "label": "Alex Brush",
+    "family": "'Alex Brush', cursive",
+    "category": "script",
+    "googleParam": "Alex+Brush"
+  },
+  {
+    "id": "parisienne",
+    "label": "Parisienne",
+    "family": "'Parisienne', cursive",
+    "category": "script",
+    "googleParam": "Parisienne"
+  },
+  {
+    "id": "sacramento",
+    "label": "Sacramento",
+    "family": "'Sacramento', cursive",
+    "category": "script",
+    "googleParam": "Sacramento"
+  },
+  {
+    "id": "poppins",
+    "label": "Poppins",
+    "family": "'Poppins', sans-serif",
+    "category": "clean",
+    "googleParam": "Poppins:wght@400;600;700"
+  },
+  {
+    "id": "playfair-display",
+    "label": "Playfair Display",
+    "family": "'Playfair Display', serif",
+    "category": "clean",
+    "googleParam": "Playfair+Display:wght@400;700"
+  },
+  {
+    "id": "nunito",
+    "label": "Nunito",
+    "family": "'Nunito', sans-serif",
+    "category": "clean",
+    "googleParam": "Nunito:wght@400;600;700"
+  },
+  {
+    "id": "lato",
+    "label": "Lato",
+    "family": "'Lato', sans-serif",
+    "category": "clean",
+    "googleParam": "Lato:wght@400;700"
+  }
+]

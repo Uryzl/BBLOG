@@ -1,0 +1,19 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title><%= typeof pageTitle !== 'undefined' ? pageTitle + ' · ' : '' %>Blog Admin</title>
+  <link rel="stylesheet" href="/admin-assets/admin.css">
+</head>
+<body>
+<div class="admin-shell">
+  <aside class="admin-sidebar">
+    <div class="admin-logo">Blog Admin</div>
+    <nav class="admin-nav">
+      <a href="/" class="<%= typeof active !== 'undefined' && active === 'dashboard' ? 'active' : '' %>">Dashboard</a>
+      <a href="/posts" class="<%= typeof active !== 'undefined' && active === 'posts' ? 'active' : '' %>">Posts</a>
+      <a href="/categories" class="<%= typeof active !== 'undefined' && active === 'categories' ? 'active' : '' %>">Categories</a>
+    </nav>
+  </aside>
+  <main class="admin-main">

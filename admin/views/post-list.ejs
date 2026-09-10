@@ -1,0 +1,47 @@
+<%- include('partials/head', { pageTitle: 'Posts', active: 'posts' }) %>
+
+<h1 class="page-title">Posts</h1>
+<p class="page-subtitle">All your posts, drafts and published.</p>
+
+<div class="actions-row">
+  <a class="btn" href="/posts/new">+ New Post</a>
+</div>
+
+<div class="card">
+  <% if (!posts.length) { %>
+    <p class="page-subtitle">You haven't written anything yet. <a href="/posts/new">Write your first post</a>.</p>
+  <% } else { %>
+  <table>
+    <thead>
+      <tr><th>Title</th><th>Category</th><th>Status</th><th>Updated</th><th></th></tr>
+    </thead>
+    <tbody>
+      <% posts.forEach(function (post) { %>
+        <tr>
+          <td><a href="/posts/<%= post.id %>/edit"><%= post.title %></a></td>
+          <td><%= categoriesById[post.categoryId] ? categoriesById[post.categoryId].name : '—' %></td>
+          <td><span class="badge <%= post.status %>"><%= post.status %></span></td>
+          <td><%= new Date(post.updatedAt).toLocaleDateString() %></td>
+          <td><button class="btn secondary delete-post" data-id="<%= post.id %>" data-title="<%= post.title %>">Delete</button></td>
+        </tr>
+      <% }); %>
+    </tbody>
+  </table>
+  <% } %>
+</div>
+
+<script>
+document.querySelectorAll('.delete-post').forEach(function (btn) {
+  btn.addEventListener('click', async function () {
+    if (!confirm('Delete "' + btn.dataset.title + '"? This cannot be undone.')) return;
+    const res = await fetch('/api/posts/' + btn.dataset.id, { method: 'DELETE' });
+    if (res.ok) {
+      location.reload();
+    } else {
+      alert('Failed to delete post.');
+    }
+  });
+});
+</script>
+
+<%- include('partials/tail') %>

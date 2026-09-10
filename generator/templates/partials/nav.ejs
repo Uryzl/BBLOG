@@ -1,0 +1,14 @@
+<nav class="site-nav">
+  <div class="wrap">
+    <a class="site-name" href="<%= url('/') %>"><%= site.siteName %></a>
+    <button class="nav-toggle" aria-label="Toggle menu">
+      <span></span><span></span><span></span>
+    </button>
+    <div class="nav-menu">
+      <a href="<%= url('/') %>">Home</a>
+      <% categories.forEach(function (cat) { %>
+        <a href="<%= url('/category/' + cat.slug + '/') %>"><%= cat.name %></a>
+      <% }); %>
+    </div>
+  </div>
+</nav>

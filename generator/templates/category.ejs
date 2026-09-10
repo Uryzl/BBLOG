@@ -1,0 +1,16 @@
+<section class="page-header wrap">
+  <p class="page-header-accent font-<%= site.defaultAccentFont %>">a little about</p>
+  <h1 class="page-header-title"><%= category.name %></h1>
+</section>
+
+<div class="wrap">
+  <% if (posts.length) { %>
+    <div class="post-feed">
+      <% posts.forEach(function (post) { %>
+        <%- include('partials/post-card', { post, category, url }) %>
+      <% }); %>
+    </div>
+  <% } else { %>
+    <p class="empty-state">No posts yet in <%= category.name %> &mdash; check back soon!</p>
+  <% } %>
+</div>

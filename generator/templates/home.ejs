@@ -1,0 +1,27 @@
+<section class="hero wrap">
+  <p class="hero-accent font-<%= site.defaultAccentFont %>"><%= site.tagline %></p>
+  <h1 class="hero-headline"><%= site.headline %></h1>
+  <% if (site.subtext) { %><p class="hero-subtext"><%= site.subtext %></p><% } %>
+</section>
+
+<% if (categories.length) { %>
+<div class="wrap">
+  <div class="category-tiles">
+    <% categories.forEach(function (cat) { %>
+      <%- include('partials/category-tile', { category: cat, url }) %>
+    <% }); %>
+  </div>
+</div>
+<% } %>
+
+<div class="wrap">
+  <% if (posts.length) { %>
+    <div class="post-feed">
+      <% posts.forEach(function (post) { %>
+        <%- include('partials/post-card', { post, category: categoriesById[post.categoryId], url }) %>
+      <% }); %>
+    </div>
+  <% } else { %>
+    <p class="empty-state">No posts yet &mdash; your first story is just a click away.</p>
+  <% } %>
+</div>

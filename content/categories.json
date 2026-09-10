@@ -1,0 +1,23 @@
+[
+  {
+    "id": "travel",
+    "name": "Travel",
+    "slug": "travel",
+    "order": 1,
+    "imagePath": ""
+  },
+  {
+    "id": "life",
+    "name": "Life",
+    "slug": "life",
+    "order": 2,
+    "imagePath": ""
+  },
+  {
+    "id": "favorites",
+    "name": "Favorites",
+    "slug": "favorites",
+    "order": 3,
+    "imagePath": ""
+  }
+]

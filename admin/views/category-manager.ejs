@@ -1,0 +1,130 @@
+<%- include('partials/head', { pageTitle: 'Categories', active: 'categories' }) %>
+
+<h1 class="page-title">Categories</h1>
+<p class="page-subtitle">Each category becomes its own page on your site, linked from the menu. Use the arrows to reorder them.</p>
+
+<div class="card">
+  <div id="category-list">
+    <% categories.forEach(function (cat, i) { %>
+      <div class="category-row" data-id="<%= cat.id %>">
+        <div class="order-controls">
+          <button type="button" class="move-up" <%= i === 0 ? 'disabled' : '' %>>▲</button>
+          <button type="button" class="move-down" <%= i === categories.length - 1 ? 'disabled' : '' %>>▼</button>
+        </div>
+        <input type="text" class="cat-name" value="<%= cat.name %>">
+        <span class="category-count"><%= countsByCategory[cat.id] || 0 %> post<%= (countsByCategory[cat.id] || 0) === 1 ? '' : 's' %></span>
+        <button type="button" class="btn secondary save-cat">Save</button>
+        <button type="button" class="btn secondary delete-cat">Delete</button>
+      </div>
+    <% }); %>
+  </div>
+</div>
+
+<div class="card">
+  <strong>Add a new category</strong>
+  <div class="form-group" style="margin-top:12px;">
+    <input type="text" id="new-cat-name" placeholder="e.g. Travel, Recipes, Book Reviews">
+  </div>
+  <button class="btn" id="add-cat-btn">+ Add Category</button>
+</div>
+
+<script>
+function apiCall(url, opts) {
+  return fetch(url, opts).then(async function (res) {
+    const data = res.status === 204 ? {} : await res.json();
+    if (!res.ok) throw new Error(data.error || 'Something went wrong.');
+    return data;
+  });
+}
+
+document.getElementById('add-cat-btn').addEventListener('click', async function () {
+  const input = document.getElementById('new-cat-name');
+  const name = input.value.trim();
+  if (!name) return;
+  try {
+    await apiCall('/api/categories', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ name })
+    });
+    location.reload();
+  } catch (e) {
+    alert(e.message);
+  }
+});
+
+document.querySelectorAll('.save-cat').forEach(function (btn) {
+  btn.addEventListener('click', async function () {
+    const row = btn.closest('.category-row');
+    const name = row.querySelector('.cat-name').value.trim();
+    if (!name) return alert('Category name cannot be empty.');
+    try {
+      await apiCall('/api/categories/' + row.dataset.id, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ name })
+      });
+      btn.textContent = 'Saved!';
+      setTimeout(function () { btn.textContent = 'Save'; }, 1200);
+    } catch (e) {
+      alert(e.message);
+    }
+  });
+});
+
+document.querySelectorAll('.delete-cat').forEach(function (btn) {
+  btn.addEventListener('click', async function () {
+    const row = btn.closest('.category-row');
+    const name = row.querySelector('.cat-name').value;
+    if (!confirm('Delete "' + name + '"?')) return;
+    try {
+      await apiCall('/api/categories/' + row.dataset.id, { method: 'DELETE' });
+      location.reload();
+    } catch (e) {
+      alert(e.message);
+    }
+  });
+});
+
+function currentOrder() {
+  return Array.from(document.querySelectorAll('.category-row')).map(function (r) { return r.dataset.id; });
+}
+
+async function saveOrder() {
+  try {
+    await apiCall('/api/categories/reorder', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ orderedIds: currentOrder() })
+    });
+  } catch (e) {
+    alert(e.message);
+  }
+}
+
+document.querySelectorAll('.move-up').forEach(function (btn) {
+  btn.addEventListener('click', async function () {
+    const row = btn.closest('.category-row');
+    const prev = row.previousElementSibling;
+    if (prev) {
+      row.parentNode.insertBefore(row, prev);
+      await saveOrder();
+      location.reload();
+    }
+  });
+});
+
+document.querySelectorAll('.move-down').forEach(function (btn) {
+  btn.addEventListener('click', async function () {
+    const row = btn.closest('.category-row');
+    const next = row.nextElementSibling;
+    if (next) {
+      row.parentNode.insertBefore(next, row);
+      await saveOrder();
+      location.reload();
+    }
+  });
+});
+</script>
+
+<%- include('partials/tail') %>

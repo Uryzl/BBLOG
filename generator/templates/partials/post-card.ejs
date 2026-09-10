@@ -1,0 +1,9 @@
+<a class="post-card" href="<%= url('/post/' + post.slug + '/') %>">
+  <div class="post-card-thumb" style="<%= post.thumbnail ? `background-image:url('${url('/images/' + post.thumbnail)}')` : '' %>"></div>
+  <div class="post-card-body">
+    <% if (category) { %><span class="post-card-tag"><%= category.name %></span><% } %>
+    <h3 class="post-card-title"><%= post.title %></h3>
+    <% if (post.excerpt) { %><p class="post-card-excerpt"><%= post.excerpt %></p><% } %>
+    <span class="post-card-readmore">Read More &rarr;</span>
+  </div>
+</a>

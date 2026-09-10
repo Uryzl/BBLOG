@@ -1,0 +1,60 @@
+<%- include('partials/head', { pageTitle: 'Dashboard', active: 'dashboard' }) %>
+
+<h1 class="page-title">Dashboard</h1>
+<p class="page-subtitle">Welcome back. Here's what's on your blog right now.</p>
+
+<div class="stat-grid">
+  <div class="stat-card"><div class="stat-number"><%= postCount %></div><div class="stat-label">Total Posts</div></div>
+  <div class="stat-card"><div class="stat-number"><%= publishedCount %></div><div class="stat-label">Published</div></div>
+  <div class="stat-card"><div class="stat-number"><%= draftCount %></div><div class="stat-label">Drafts</div></div>
+  <div class="stat-card"><div class="stat-number"><%= categoryCount %></div><div class="stat-label">Categories</div></div>
+</div>
+
+<div class="actions-row">
+  <a class="btn" href="/posts/new">+ New Post</a>
+  <a class="btn secondary" href="/categories">Manage Categories</a>
+  <button class="btn secondary" id="publish-btn">Publish Site</button>
+</div>
+
+<div class="card">
+  <strong>Publishing</strong>
+  <p class="page-subtitle" style="margin-top:6px;">
+    Clicking "Publish Site" regenerates the static site in the <code>/docs</code> folder from your published posts.
+    When you're ready to make it live, commit and push the repo so GitHub Pages can serve the new <code>/docs</code> folder.
+  </p>
+  <div id="publish-status"></div>
+</div>
+
+<script>
+document.getElementById('publish-btn').addEventListener('click', async function () {
+  const btn = this;
+  const statusEl = document.getElementById('publish-status');
+  btn.disabled = true;
+  btn.textContent = 'Publishing...';
+  statusEl.textContent = '';
+  try {
+    const res = await fetch('/api/publish', { method: 'POST' });
+    const data = await res.json();
+    if (!res.ok || !data.ok) {
+      statusEl.innerHTML = '<p style="color:#C1554A;"><strong>Publish failed:</strong></p><ul>' +
+        (data.errors || ['Unknown error']).map(function (e) { return '<li>' + e + '</li>'; }).join('') + '</ul>';
+    } else {
+      var msg = '<p style="color:#4E8B6C;">Published ' + data.stats.posts + ' posts across ' +
+        data.stats.categories + ' categories at ' + new Date(data.stats.publishedAt).toLocaleTimeString() + '.</p>';
+      if (data.warnings && data.warnings.length) {
+        msg += '<p style="color:#8C6C63;">A few files couldn\'t be updated because something else had them open (like a preview server) ' +
+          '— they\'ll be cleaned up automatically next time you publish:</p><ul>' +
+          data.warnings.map(function (w) { return '<li>' + w + '</li>'; }).join('') + '</ul>';
+      }
+      statusEl.innerHTML = msg;
+    }
+  } catch (e) {
+    statusEl.innerHTML = '<p style="color:#C1554A;">Publish failed: ' + e.message + '</p>';
+  } finally {
+    btn.disabled = false;
+    btn.textContent = 'Publish Site';
+  }
+});
+</script>
+
+<%- include('partials/tail') %>
